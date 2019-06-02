@@ -1,1 +1,19 @@
+一、GitHub注册及使用
+本地仓库右击，选择Git Bash Here
+配置用户名和邮箱：
+git config --global user.name "heqiang"
+git config --global user.name "heqiang@zju.edu.cn"
+添加和提交:
+git add hello.txt              //注意新建文件时，计算机可能已自动增加后缀
+git commit -m "just atest"
+生成SSH秘钥:
+ssh-keygen -t rsa -C "heqiang@zju.edu.cn"       //3次回车，密码为空
 
+在C:\Users\heqiang\.ssh目录下找到id_rsa.pub，打开并复制里面所有内容
+登录gihub账号->Your profile->Edit profile->SSH->SSH Key
+将复制内容粘贴到Key中，点击Add SSH Key，SSH密钥完成
+
+添加新的远程仓库：
+git remote add origin  git@github.com:chuaaqiCSDN/mygit.git
+远程提交： 
+git push origin master
