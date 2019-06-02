@@ -14,6 +14,6 @@ ssh-keygen -t rsa -C "heqiang@zju.edu.cn"       //3次回车，密码为空
 将复制内容粘贴到Key中，点击Add SSH Key，SSH密钥完成
 
 添加新的远程仓库：
-git remote add origin  git@github.com:chuaaqiCSDN/mygit.git
+git remote add origin  git@github.com:meetheqiang/mytest.git
 远程提交： 
 git push origin master
