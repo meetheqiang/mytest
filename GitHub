@@ -17,3 +17,5 @@ ssh-keygen -t rsa -C "heqiang@zju.edu.cn"       //3次回车，密码为空
 git remote add origin  git@github.com:meetheqiang/mytest.git
 远程提交： 
 git push origin master
+
+教程：https://www.runoob.com/w3cnote/git-guide.html
