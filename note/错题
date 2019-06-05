@@ -1,0 +1,235 @@
+vivo2018秋招软开笔试题
+1.以下三条输出语句分别输出什么?    false,false,true;
+int main (void) {
+    char str1[] = “abc”;
+    char str2[] = “abc”;
+    const char str3[] = “abc”;
+    const char str4[] = “abc”;
+    const char* str5 = “abc”;
+    const char* str6 = “abc”;
+
+    cout << (str1 == str2) << endl;
+    cout << (str3 == str4) << endl;
+    cout << (str5 == str6) << endl;
+
+    return 0;
+    }
+/************************************************/
+char str[] = "i am a programmer.";                  //字符数组，
+char *str1 = "abc";                                 //字符指针变量，指向一个字符串，abc是系统常量，str1是指向常量的指针的地址
+char *str2[] = {"hello world","good bye"};          //字符指针数组，指向多个字符串
+string str3 =  "i am a programmer，too";            //字符串变量，以'\0'作为字符串的结束标志
+    
+2.下面程序运行的结果是？       pongping
+ public static void main(String args[]) {  
+     Thread t = new Thread() {  
+         public void run() {  
+             pong();  
+         }  
+     };  
+t.run();  
+System.out.print("ping");  
+}  
+static void pong() {  
+    System.out.print("pong");  
+}
+//run（）按顺序执行、需要等待，start直接执行
+
+3.已知函数fun的原型为int fun（int,int,int）；下列重载函数原型中错误的是D
+char fun（int,int）；
+double  fun（int,int,double）；
+int fun（int,char*）；
+float  fun （int,int,int）；
+//参数的个数不同或类型不同
+
+4.不同进程加载同一个动态库时，不能共享的部分是D
+RO段
+RW段
+ZI段
+RW和ZI段
+
+在ARM集成开发环境中：
+1）只读的代码段和常量被称作RO段，是程序中的指令和常量；
+2）可读写的全局变量和静态变量称为RW段，是程序中已初始化变量；
+3）RW段中要被初始化为0的变量称为ZI段，是程序中未初始化变量。
+只有只读的指令和常量可以共享。
+
+5.线程共享的进程环境包括：
+进程代码段
+进程的公有资源（如全局变量，利用这些共享的数据，线程很容易的实现相互之间的通信）
+进程打开的文件描述符
+消息队列
+信号的处理器
+进程的当前目录
+进程用户ID
+进程组ID
+线程独占资源：
+线程ID
+寄存器组的值
+用户栈、内核栈（在一个进程的线程共享堆区（heap））
+错误返回码
+线程的信号屏蔽码
+线程的优先级
+
+6.请问linux系统发送信号的系统调用是B
+open
+kill
+send
+socket
+
+系统调用signal是进程用来设定某个信号的处理方法，系统调用kill是用来发送信号给指定进程的。
+这 两个调用可以形成信号的基本操作。
+后两个调用pause和alarm是通过信号实现的进程暂停和定时器，调用alarm是通过信号通知进程定时器到时。
+
+7.阅读以下JAVA程序段，执行结果正确的是（ 第7行有错误导致编译不成功 ）。
+public class Test
+{
+      public static void main (String[]  args)
+      {
+          Byte var1 = 126;
+          Byte var2 = 127;
+          Byte var3 = var1 + var2;   //第7
+      }
+}
+第七行自动类型提升为int，int无法自动装箱为Byte。
+
+8.有关线程的哪些叙述是对的
+正确答案: B D   你的答案: B C D (错误)
+一旦一个线程被创建，它就立即开始运行。
+一个线程可能因为不同的原因停止并进入就绪状态。
+当一个线程因为抢先机制而停止运行，它被放在可运行队列的前面。
+使用start()方法可以使一个线程成为可运行的，但是它不一定立即开始运行。
+//因为抢先机制而停止运行，说明该线程的优先级比较低，不可能排到可运行队列的前面。
+
+9.在32位系统上：void *p=malloc( 100 );请计算sizeof (p) =4
+
+10.设F和R分别表示顺序循环队列的头指针和尾指针，则判断该循环队列为空的条件为 F=R
+
+11.设某循环队列的容量为50，头指针front=5，尾指针rear=29，则该循环队列中共有 24 个元素。
+
+头指针和尾指针开始时刻都指向数组的0下标元素。当加入新元素以后，尾指针向后移动，指向最后一个元素的下一个位置，头指针指向第一个元素。
+循环队列的长度是(rear-front+Quesize)%Quesize
+
+12.动态分配内存返回空指针，说明分配内存未成功，有三种可能：
+（1）分配的空间太小
+（2）分配的空间被当作内存碎片处理
+（3）val取值过大，即分配空间过大会导致内存溢出
+
+13.两个进程间需要交换1KB的数据，请列出三种进程间通讯的方法
+(1) socket
+(2) pipe
+(3) 共享内存
+
+14.Android四大组件是
+(1) Activity
+(2) Service
+(3) Broadcast
+(4) ContentProvider
+
+15.JAVA中，final修饰的类、成员函数、变量分别有什么特点？
+类被声明为final，意味着它不能再派生出新的子类，不能作为父类被继承。因此一个类不能既被声明为 abstract的，又被声明为final的。
+将变量声明为final，可以保证它们在使用中不被改变。被声明为final的变量必须在new一个对象时初始化（即只能在声明变量或构造器或代码块内初始化），而在以后的引用中只能读取，不可修改。
+将方法声明为final，则方法只能使用，而不能在子类重写。
+
+16.请问如何定义C++类，阻止C++类对象的相互赋值（obj2=obj1）？
+提示:利用重载制造编译错误
+class A{
+  
+}
+
+只要重载=的定义在private或protected下面即可，重载原型的const修饰及函数体内容无所谓
+class A{
+    protected:
+    A& operator = (const A&){}；
+}
+或者
+class A{
+    private:
+    A& operator = (const A&){}；
+}
+
+17.java中Thread.sleep()和 Object.wait() 有什么区别?
+sleep是使线程休眠一段时间。在sleep休眠时间到期后，线程不一定立即恢复执行，除非系统没有其它更高优先级的任务正在执行
+wait是线程间实现同步的一种机制。调用wait的线程会主动进入等待状态，直到被其它线程唤醒或者等待超时
+
+18.sprintf、strcpy、strncpy及 memcpy 函数，请问这些函数功能有什么区别？从安全角度考虑一般应该用哪个函数复制字符串？ 
+sprintf为格式化字符串函数
+strcpy为字符串复制函数
+strncpy也是字符串复制函数，但是可以指定最大复制长度
+memcpy为内存复制函数
+从安全角度应该选strncpy，不易出现越界异常
+
+19.约瑟夫环是一个数学应用题：已知n个人（编号1、2、..n）围坐在一张圆桌周围。从编号为1的人开始报数，数到m的那个人出列；
+他的下一个又从1开始报数，数到m的那个人又出列；依次规律重复下去，直到圆桌周围的人全部出列。请编写一个程序，给定n、m计算出列人员先后顺序。
+#include <iostream>
+using namespace std;
+
+typedef struct Node{
+    int num;
+    struct Node *next;
+}LinkList;
+
+LinkList* creat(int n){
+    LinkList *p,*q,*head;
+    int i = 1;
+    p = (LinkList*)malloc(sizeof(LinkList));
+    p->num = i;
+    head = p;
+    for(i = 2; i <= n; ++i){
+        q = (LinkList*)malloc(sizeof(LinkList));
+        q->num = i;
+        p->next = q;
+        p = q;
+    }
+    p->next = head;
+    return head;
+}
+void fun(LinkList* L, int m){
+    int i;
+    LinkList *p,*s,*q;
+    p = L;
+    while(p->next != p){
+        for(i = 1; i < m; ++i){
+            q = p;
+            p = q->next;
+        }
+        cout<<p->num<<" ";
+        
+        s = p;
+        q->next
+    }
+}
+int main(){
+
+}
+20.编程找出两个字符串中最大公共子字符串,如"abccade","dgcadde"的最大子串为"cad"
+
+vivo2019秋招提前批软开笔试题
+1.数组A中存在且数组B中不存在的元素
+#include <iostream>
+using namespace std;
+
+void fun(int a[],int a_len,int b[],int b_len){
+    int i,j;
+    for(i=0;i<a_len;++i){
+        for(j=0;j<b_len;++j){
+            if(a[i]==b[j])
+                break;
+        }
+        if(j==b_len)
+            cout<<a[i]<<" ";
+    }
+}
+
+int main(){
+    int a[]={1,2,3,4,5,6};
+    int b[]={1,2,3};
+    int a_len=sizeof(a)/sizeof(a[0]);
+    int b_len=sizeof(b)/sizeof(b[0]);
+    fun(a,a_len,b,b_len);
+    
+    return 0;
+}
+2.倒转单项链表M、N位置元素
+
+3.总价，商品单价、热度值，问最大热度（每个商品限购1件）
