@@ -1,0 +1,25 @@
+1.赋值运算符函数
+class CMyString
+{
+public:
+    CMyString(char* pData = NULL);
+    CMyString(const CMyString& str);
+    ~CMyString(void);
+    
+    CMyString& operator =(const CMyString& str);
+    
+    void Print();
+    
+private:
+    char* m_pData;
+};
+
+CMyString::CMyString(char *pData)
+{
+    if(pData == NULL){
+    m_pData = new char[1];
+    m_npData = '\0';
+    }
+    
+    
+}
