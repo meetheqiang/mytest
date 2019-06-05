@@ -1,0 +1,33 @@
+//2019.06.02
+sudo apt-get install isof
+
+pwd
+ls
+mkdir Hello
+vim hello.cpp
+i
+esc
+gg=G
+:
+wq
+
+g++ hello.cpp -o hello
+./hello
+ctrl+c
+
+sudo mv hello ./home
+cp hello hello1
+rm -r hello
+
+cd ..
+cd /
+
+预处理 g++ -E hello.cpp -o hello.i
+编译   g++ -S hello.i   -o hello.s
+汇编   g++ -c hello.s   -o hello.o
+
+g++ -c add.cpp
+g++ -c sub.cpp
+ar cr libmymath.a sub.o add.o
+ar tv libmaymath.a
+g++ -o main main.cpp -L. -lmymath
