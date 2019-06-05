@@ -1,0 +1,98 @@
+1.n个物体，放入给定容量的背包
+number=4,bagV=8;
+体积：w[]={2,3,4,5};
+价值：v[]={3,4,5,6};
+V（0,j） = V(i,0) = 0
+V（i,j） = V(i-1,j)                           j<w[i]
+V（i,j） = max{V(i-1,j),V(i-1,j-w[i])+v[i]    j>=w[i]
+2.动态规划
+//输出最优解，动态规划
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    int w[5] = {0,2,3,4,5};
+    int v[5] = {0,3,4,5,6};
+    int bagV = 8;
+    int dp[5][9] = {{0}};
+    
+    for(int i=0;i<5;++i){
+        for(int j=0;j<9;++j){
+            if(j<w[i])
+                dp[i][j] = dp[i-1][j];
+            else
+                dp[i][j] = dp[i-1][j] > dp[i-1][j-w[i]] + v[i] ? dp[i-1][j] : dp[i-1][j-w[i]] + v[i];
+        }
+    }
+    
+    int max = 0;
+    for(int i=0;i<5;++i){
+        for(int j=0;j<9;++j){
+            max = dp[i][j] > max ? dp[i][j] : max;
+        }
+    }
+    cout << max << endl;
+}
+//最优解回溯
+#include <iostream>
+#include <algorithm>
+using namespace std;
+int path[5];
+int max = 0;
+int x,y;
+
+
+void findPath(int i, int j){
+    if(i >= 0){
+        if(dp[i][j] == dp[i-1][j]){
+            path[i] = 0;
+            findPath(i-1, j);
+        }
+        else if(dp[i][j] == dp[i-1][j-w[i]] + v[i]){
+            path[i] = 1;
+            findPath(i-1,j-w[i]);
+        }
+    }
+}
+
+void print(){
+    for(int i=0;i<5;++i){
+        if(path[i] != 0)
+            cout << i << " "；
+    }
+    cout << endl;
+}
+    
+int main()
+{
+    int w[5] = {0,2,3,4,5};
+    int v[5] = {0,3,4,5,6};
+    int bagV = 8;
+    int dp[5][9] = {{0}};
+    
+    for(int i=1;i<5;++i){
+        for(int j=1;j<9;++j){
+            if(j<w[i])
+                dp[i][j] = dp[i-1][j];
+            else
+                dp[i][j] = dp[i-1][j] > dp[i-1][j-w[i]] + v[i] ? dp[i-1][j] : dp[i-1][j-w[i]] + v[i];
+        }
+    }
+    
+    for(int i=0;i<5;++i){
+        for(int j=0;j<9;++j){
+            max = dp[i][j] > max ? dp[i][j] : max;
+            x = i;
+            y = j;
+        }
+    }
+    
+    findPath(x, y);
+    print();
+    
+    return 0;
+}
+
+详解：https://blog.csdn.net/qq_38410730/article/details/81667885
