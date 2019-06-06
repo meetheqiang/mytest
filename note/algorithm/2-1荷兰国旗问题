@@ -1,0 +1,20 @@
+荷兰国旗问题
+时间复杂度O（n），空间复杂的O（1）
+给定一个数组ary[]和一个数num，排序后：等于num的数在中间，小于num的数在左边，大于num的数在右边；
+void partition(int ary[], int l, int r, int num)
+{
+	int less = l - 1;
+	int more = r + 1;
+	int cur = l;
+	while (cur < more) {
+		if (ary[cur] < num) {
+			swap(ary,++less, cur++);
+		}
+		else if (ary[cur] > num) {
+			swap(ary,--more, cur);
+		}
+		else {
+			++cur;
+		}
+	}
+}
