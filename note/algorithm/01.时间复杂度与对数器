@@ -1,0 +1,136 @@
+1.时间复杂度
+O(N)                    //读作big O
+
+2.对数器
+1）需要测试的方法a
+2）正确但复杂度不好的算法b
+3）随机样本产生器
+4）实现对比的方法
+5）把方法a和方法b比对很多次来验证方法a是否正确
+6）如果有样本对比出错，打印样本分析
+7）当样本数量很多时对比依然正确，则方法a也正确
+#include <time.h>
+#include <stdlib.h>
+#include <iostream>
+using namespace std;
+int len = 0;
+
+//需要测试的方法a
+int Merge(int ary[], int l, int m, int r) {
+	int i = 0;
+	int *help = new int[r - l + 1];
+	int p1 = l;
+	int p2 = m + 1;
+	int res = 0;
+	while (p1 <= m && p2 <= r) {
+		res += ary[p1] < ary[p2] ? (r- p2 + 1)*ary[p1] : 0;
+		help[i++] = ary[p1] < ary[p2] ? ary[p1++] : ary[p2++];
+	}
+	while (p1 <= m) {
+		help[i++] = ary[p1++];
+	}
+	while (p2 <= r) {
+		help[i++] = ary[p2++];
+	}
+	for (int j = 0; j < r - l + 1; ++j) {
+		ary[l + j] = help[j];
+	}
+	return res;
+}
+int MergeSort(int ary[], int l, int r) {
+	if (l == r) {
+		return 0;
+	}
+
+	int m = l + ((r - l) >> 1);
+	return MergeSort(ary, l, m) + MergeSort(ary, m+1, r) + Merge(ary, l, m, r);
+}
+int SmallSum(int ary[], int len) {
+	if (ary == NULL && len < 2) {
+		return 0;
+	}
+
+	return MergeSort(ary, 0, len - 1);
+}
+//正确但复杂度不好的算法b
+int Comparator(int arr[], int len) {
+	if (arr == NULL || len < 2)
+		return 0;
+
+	int res = 0;
+	for (int i = 1; i < len; ++i) {
+		for (int j = 0; j < i; ++j) {
+			res += arr[j] < arr[i] ? arr[j] : 0;
+		}
+	}
+	return res;
+}
+//随机样本生成函数
+int* generateRandomArray(int maxSize,int& len,int maxValue) {
+	srand((unsigned)time(NULL));
+	len = (int)(rand() % (maxSize + 1));
+	int *arr = new int[len];
+	for (int i = 0; i < len; i++) {
+		arr[i] = (int)(rand()%(maxValue + 1)) - (int)(rand()%maxValue);
+	}
+	return arr;
+}
+//拷贝随机样本
+int* copyArray(int arr[],int len) {
+	if (arr == NULL) {
+		return NULL;
+	}
+	int *res = new int[len];
+	for (int i = 0; i < len; i++) {
+		res[i] = arr[i];
+	}
+	return res;
+}
+//比较两种方法输出
+bool isEqual(int arr1[],int len1, int arr2[],int len2) {
+	if ((arr1 == NULL && arr2 != NULL) || (arr1 != NULL && arr2 == NULL)) {
+		return false;
+	}
+	if (arr1 == NULL && arr2 == NULL) {
+		return true;
+	}
+	if (len1 != len2) {
+		return false;
+	}
+	for (int i = 0; i < len1; i++) {
+		if (arr1[i] != arr2[i]) {
+			return false;
+		}
+	}
+	return true;
+}
+//打印样本数据
+void printArray(int arr[],int len) {
+	if (arr == NULL) {
+		return;
+	}
+	for (int i = 0; i < len; i++) {
+		cout<<arr[i]<<" ";
+	}
+	cout<<endl;
+}
+//主函数
+int main() {
+	int testTime = 500000;          //样本数量
+	int maxSize = 100;              //样本长度
+	int maxValue = 100;             //样本取值范围
+	bool succeed = true;
+	for (int i = 0; i < testTime; i++) {
+		int *arr1 = generateRandomArray(maxSize,len,maxValue);
+		int *arr2 = copyArray(arr1,len);
+		if (SmallSum(arr1,len) != Comparator(arr2,len)) {
+			succeed = false;
+			printArray(arr1,len);
+			printArray(arr2,len);
+			break;
+		}
+	}
+	cout<<(succeed ? "Nice!" : "Fucking fucked!");
+
+	return 0;
+}
