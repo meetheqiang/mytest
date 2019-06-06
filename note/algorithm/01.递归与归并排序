@@ -1,0 +1,46 @@
+1.递归行为时间复杂度估算
+master公式：
+T(N) = a*T(N/b) + O(N^d)                    //N/b为子问题规模，a为递归次数，O(N^d)除递归外操作的时间复杂度
+1)log(b,a) > d, 复杂度为O（N^log(b,a)）;
+2)log(b,a) = d, 复杂度为O（N^d * logN）;
+3)log(b,a) < d, 复杂度为O（N^d）
+补充：http://www.gocalf.com/blog/algorithm-complexity-and-master-theorem.html
+
+2.归并排序
+时间复杂度为O（N * logN)，空间复杂度为O(N)。
+void Merge(int ary[], int l, int mid, int r)
+{
+    int *help = new int[r-l+1];
+    int p1 = l;
+    int p2 = mid +1;
+    int i = 0;
+    while(p1 <= mid && p2 <= r){
+        help[i++] = ary[p1] < ary[p2] ? ary[p1++] : ary[p2++];
+    }
+    while(p1 <= mid){
+        help[i++] = ary[p1++];
+    }
+    while(p2 <= r){
+        help[i++] = ary[p2++];
+    }
+    for(int j = 0; j < r-l+1; ++j){
+        ary[l+j] = help[j];
+    }
+}
+void MergeSort(int ary[], int l, int r)
+{
+    if(l == r)
+        return;
+        
+    int mid = l + ((r - 1) >> 1);
+    MergeSort(ary, l, mid);
+    MergeSort(ary, mid + 1, r);
+    Merge(ary, l, mid, r);
+}
+void MergeSort(int ary[], int len)
+{
+    if(ary == NULL || len <2)
+        return;
+        
+    MergeSort(ary, 0, len -1);
+}
