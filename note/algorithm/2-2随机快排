@@ -1,0 +1,63 @@
+经典快排与随机快排
+时间复杂度O（N * logN）,额外空间复杂度O（logN）
+#include <time.h>
+#include <iostream>
+using namespace std;
+int p[2];                       //使用全局变量接收数组返回
+
+void print(int ary[], int len) {
+	for (int i = 0; i < len; ++i)
+		cout << ary[i] << " ";
+	cout << endl;
+}
+void swap(int ary[], int i, int j) {
+	int temp = ary[i];
+	ary[i] = ary[j];
+	ary[j] = temp;
+}
+
+void partition(int ary[], int l, int r) {
+	int less = l - 1;
+	int more = r;
+	int cur = l;
+	while (cur < more) {
+		if (ary[cur] < ary[r]) {
+			swap(ary, ++less, cur++);
+		}
+		else if (ary[cur] > ary[r]) {
+			swap(ary, --more, cur);
+		}
+		else {
+			cur++;
+		}
+	}
+	swap(ary, more, r);
+	p[0] = cur + 1;
+	p[1] = more;
+}
+void quickSort(int ary[], int l, int r) {
+	if (l < r) {
+		srand((unsigned)time(NULL));
+		swap(ary, (int)(rand() % (r - l + 1) + l), r);
+		partition(ary, l, r);
+		quickSort(ary, l, p[0] - 1);
+		quickSort(ary, p[1] + 1, r);
+	}
+}
+void quickSort(int ary[], int len) {
+	if (ary == NULL || len < 2)
+		return;
+
+	quickSort(ary, 0, len - 1);
+}
+//主函数
+int main()
+{
+	int ary[] = { 4,2,8,3,5,7,9,1,6 };
+	int len = sizeof(ary) / sizeof(int);
+	print(ary, len);
+	quickSort(ary, len);
+	print(ary, len);
+
+	return 0;
+  }
