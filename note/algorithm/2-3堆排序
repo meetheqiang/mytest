@@ -1,0 +1,48 @@
+堆排序
+3.1 完全二叉树>满二叉树
+使用数组模拟完全二叉树
+节点i：左子节点为2*i+1,右子节点为2*i+2,父节点为（i-1）/2;
+3.2 堆就是完全二叉树，分为大根堆和小根堆
+层数为logN，插入i节点代价为log（i-1）；
+3.3 对应的数据结构为优先级队列
+3.4 堆排序
+1）大根堆
+2）堆顶和最后位置数交换
+3）重新调整大根堆
+code:
+//新插入一个数
+void heapInsert(int ary[], int index) {
+	while (ary[index] > ary[(index - 1) / 2]) {
+		swap(ary, index, (index - 1) / 2);
+		index = (index - 1) / 2;
+	}
+}
+//如果顶节点改变
+void heapify(int ary[], int index, int size) {
+	int left = index * 2 + 1;
+	while (left < size) {
+		int largest = left + 1 < size && ary[left + 1] > ary[left] ? left + 1 : left;
+		largest = ary[largest] > ary[index] ? largest : index;
+		if (largest == index) {
+			break;
+		}
+		swap(ary, largest, index);
+		index = largest;
+		left = index * 2 + 1;
+	}
+}
+//不断交换顶节点与末尾节点
+void heapSort(int ary[], int len) {
+	if (ary == NULL || len < 2)
+		return;
+
+	for (int i = 0; i < len; ++i) {
+		heapInsert(ary, i);
+	}
+	int size = len;
+	swap(ary, 0, --size);
+	while (size > 0) {
+		heapify(ary, 0, size);
+		swap(ary, 0, --size);
+	}
+}
