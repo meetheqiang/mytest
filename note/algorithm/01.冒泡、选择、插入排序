@@ -1,0 +1,45 @@
+1.冒泡排序
+时间复杂度O（n^2），空间复杂的O（1）
+void BubbleSort（int ary[], int len）
+{
+    if(ary == NULL || len < 2)
+        return;
+        
+    for(int j =  len-1; j >0; --j){
+        for(int i = 0; i <j; ++i){
+            if(ary[i] > ary[i+1])
+                swap(ary, i, i+1);
+        }
+    }
+}
+
+2.选择排序
+时间复杂度O（n^2），空间复杂的O（1）
+void SelectionSort(int ary[],int len)
+{
+    if(ary == NULL || len < 2)
+        return;
+        
+    for(int i = 0; i < len-1; ++i){
+        int midIndex = i;
+        for(int j = i+1; j < len; ++j){
+            minIndex = ary[minIndex] > ary[j] ? j : minIndex;
+        }
+        if(i != minIndex)
+        swap(ary, i, minIndex);
+    }
+}
+
+3.插入排序
+时间复杂度O（n^2），空间复杂的O（1）。原本有序的情况下,最好情况时间复杂度为O（n）
+void InsertSort(int ary[], int len)
+{
+    if(ary == NULL || len < 2)
+        return;
+        
+    for(int i=0; i < len; ++i){
+        for(int j = i-1; j >= 0 && ary[j] > ary[j+1]; --j){
+            swap(ary, j, j+1);
+        }
+    }
+}
