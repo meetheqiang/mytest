@@ -1,0 +1,7 @@
+递归行为时间复杂度估算
+master公式：
+T(N) = a*T(N/b) + O(N^d)                    //N/b为子问题规模，a为递归次数，O(N^d)除递归外操作的时间复杂度
+1)log(b,a) > d, 复杂度为O（N^log(b,a)）;
+2)log(b,a) = d, 复杂度为O（N^d * logN）;
+3)log(b,a) < d, 复杂度为O（N^d）
+补充：http://www.gocalf.com/blog/algorithm-complexity-and-master-theorem.html
