@@ -1,0 +1,39 @@
+小和问题
+在一个数组中，每一个数左边比当前数小的数累加起来，叫做这个数组的小和。
+int Merge(int ary[], int l, int m, int r)
+{
+    int i= 0;
+    int *help = new int[r-l+1];
+    int p1 = l;
+    int p2 = m+1;
+    int res = 0;
+    while(p1 <= m && p2 <= r){
+        res += ary[p1] < ary[p2] ? (r-p2+1) * ary[p1]:0;
+        help[i++] = ary[p1] < ary[p2] ? ary[p1++] : ary[p2++];
+    }
+    while(p1 <= m){
+        help[i++] = ary[p1++];
+    }
+    while(p2 <= r){
+        help[i++] = ary[p2++];
+    }
+    for(int j = 0; j < r-l+1; ++j){
+        ary[l+j] = help[j];
+    }
+    return res;
+}
+int MergeSort(int ary[], int l, int r)
+{
+    if(l == r)
+        return 0;
+        
+    int m = l + ((r-l)>>1);
+    return MergeSort(ary, l, m) + MergeSort(ary, m+1, r) + Merge(ary, l, m, r);
+}
+int SmallSum(int ary[], int len)
+{
+    if(ary == NULL || len < 2)
+        return 0;
+        
+    return MergeSort(ary, 0, len-1);
+}
