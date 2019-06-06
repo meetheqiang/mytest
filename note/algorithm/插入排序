@@ -1,0 +1,13 @@
+插入排序
+时间复杂度O（n^2），空间复杂的O（1）。原本有序的情况下,最好情况时间复杂度为O（n）
+void InsertSort(int ary[], int len)
+{
+    if(ary == NULL || len < 2)
+        return;
+        
+    for(int i=0; i < len; ++i){
+        for(int j = i-1; j >= 0 && ary[j] > ary[j+1]; --j){
+            swap(ary, j, j+1);
+        }
+    }
+}
