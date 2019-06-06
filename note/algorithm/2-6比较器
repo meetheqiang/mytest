@@ -1,0 +1,6 @@
+比较器
+用于重载系统排序算法
+sort(student,cmp());
+PriorityQueue<> 优先队列，堆
+TreeMap<> 红黑树
+TreeSet<Student> treeSet = new treeSet(cmp);
