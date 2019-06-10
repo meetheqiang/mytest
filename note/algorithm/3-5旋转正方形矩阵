@@ -1,0 +1,50 @@
+#include <iostream>
+using namespace std;
+
+void rotateEdge(int **m, int a, int b, int c, int d) {
+	int times = c - a;
+	int tem = 0;
+	for (int i = 0; i != times; ++i) {
+		tem = m[a][b+i];
+		m[a][b + i] = m[c - i][b];
+		m[c - i][b] = m[c][d - i];
+		m[c][d - i] = m[a + i][c];
+		m[a + i][c] = tem;
+	}
+}
+void rotate(int** matrix, int row, int col) {
+	int a = 0;
+	int b = 0;
+	int c = row - 1;
+	int d = col - 1;
+	while (b < d ) {
+		rotateEdge(matrix, a++, b++, c--, d--);
+	}
+}
+void PrintMatrix(int** m,int row,int col) {
+	for (int i = 0; i < row; ++i) {
+		for (int j = 0; j < col; ++j) {
+			cout << m[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+void test(int row, int col) {
+	int** number = new int*[row];
+	for (int i = 0; i < row; ++i) {
+		number[i] = new int[col];
+		for (int j = 0; j < col; ++j) {
+			number[i][j] = i * col + j + 1;
+		}
+	}
+
+	rotate(number, row, col);
+	PrintMatrix(number, row, col);
+}
+int main() {
+	int rows,columns;
+	cin >> rows >> columns ;
+	test(rows, columns);
+
+	return 0;
+}
