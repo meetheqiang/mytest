@@ -1,0 +1,103 @@
+<vector>
+
+//vector类的简单实现
+template<typename T>
+class myVector
+{
+private:
+#define WALK_LENGTH 64;
+public:
+	myVector() :array(0),theSize(0),theCapacity(0){}
+	myVector(const T& t, unsigned int n) :array(0), theSize(0), theCapcity(0) {
+		while (n--) {
+			push_back(t);
+		}
+	}
+	myVector(const myVector<T>& other) :array(0), theSize(0), theCapacity(0) {
+		*this = other;
+	}
+	~myVector() {
+		clear();
+	}
+
+	myVector<T>& operator =(myVector<T>& other) {
+		if (this == &other)
+			return *this;
+		clear();
+		theSize = other.theSize();
+		theCapacity = other.theCapacity();
+		array = new T[theCapacity];
+		for (unsigned int i = 0; i < theSize; ++i) {
+			array[i] = other.array[i];
+		}
+		return *this;
+	}
+
+	T& operator[](unsigned int pos) {
+		assert(pos < theSize);
+		return array[pos];
+	}
+	unsigned int size() {
+		return theSize;
+	}
+	unsigned int capactity() {
+		return theCapacity;
+	}
+	bool empty() {
+		return theSize == 0;
+	}
+	void clear() {
+		deallocator(array);
+		array = 0;
+		theSize = 0;
+		theCapacity = 0;
+	}
+
+	void push_back(const T& t) {
+		insert_after(theSize - 1, t);
+	}
+	void push_front(const T& t) {
+		insert_before(0, t);
+	}
+	void insert_after(int pos, const T& t) {
+		insert_before(pos + 1, t);
+	}
+	void insert_before(int pos, const T& t) {
+		if (theSize == theCapacity) {
+			T* oldArray = array;
+			theCapacity += WALK_LENGTH;
+			array = allocator[theCapacity];
+			for (unsigned int i = 0; i < theSize; ++i) {
+				array[i] = oldArray[i];
+			}
+			deallocator(oldArray);
+		}
+		for (int i = (int)theSize++; i > pos; --i) {
+			array[i] = array[i - 1];
+		}
+		array[pos] = t;
+	}
+
+	void erase(unsigned int pos) {
+		if (pos < theSize) {
+			--theSize;
+			for (unsigned int i = pos; i < theSize; ++i) {
+				array[i] = array[i + 1];
+			}
+		}
+	}
+
+private:
+	T* allocator(unsigned int size) {
+		return new T[size];
+	}
+	void deallocator(T* arr) {
+		if (arr)
+			delete[] arr;
+	}
+
+private:
+	T* array;
+	unsigned int theSize;
+	unsigned int theCapacity;
+};
