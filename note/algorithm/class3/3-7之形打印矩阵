@@ -1,0 +1,60 @@
+#include <iostream>
+using namespace std;
+
+void printLine(int** m,int a,int b,int c,int d,bool f) {
+	if (f) {
+		while (a != c + 1) {
+			cout << m[a++][b--] << " ";
+		}
+	}
+	else {
+		while (c != a - 1) {
+			cout << m[c--][d++] << " ";
+		}
+	}
+}
+void PrintMatrix(int** matrix,int rows,int cols) {
+	int a = 0, b = 0, c = 0, d = 0;
+	int row = rows - 1;
+	int col = cols - 1;
+	bool fromUP = false;
+	while (a != row + 1) {
+		printLine(matrix, a, b, c, d, fromUP);
+		a = b == col ? a + 1 : a;
+		b = b == col ? b : b + 1;
+
+		d = c == row ? d + 1 : d;
+		c = c == row ? c : c + 1;
+
+		fromUP = !fromUP;
+	}
+}
+void Print(int** m, int row, int col) {
+	for (int i = 0; i < row; ++i) {
+		for (int j = 0; j < col; ++j) {
+			cout << m[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+void test(int row,int col) {
+	int** matrix = new int*[row];
+	for (int i = 0; i < row; ++i) {
+		matrix[i] = new int[col];
+		for (int j = 0; j < col; ++j) {
+			matrix[i][j] = i * col + j + 1;
+		}
+	}
+
+	Print(matrix, row, col);
+
+	PrintMatrix(matrix, row, col);
+}
+
+int main() {
+	int row, col;
+	cin >> row >> col;
+	test(row, col);
+
+	return 0;
+}
