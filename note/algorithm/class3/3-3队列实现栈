@@ -1,0 +1,106 @@
+/*使用STL，用两个队列来实现一个栈，完成栈的push，pop，top，clear*/
+#include <queue>
+#include <stack>
+#include <iostream>
+using namespace std;
+
+template<typename T> class MyStack
+{
+public:
+	void clear()
+	{
+		if (queue1.size() > 0)
+			queue1.swap(queue<T>());
+		if (queue2.size() > 0)
+			queue2.swap(queue<T>());
+
+	}
+	T top() //栈顶就是 队列的最后一个元素，和pop函数十分类似
+	{
+		while (queue1.size() > 1)//queue1的队尾元素是栈顶元素，将其余的倒腾到queue2中去
+		{
+			T front = queue1.front();
+			queue1.pop();
+			queue2.push(front);
+		}
+		if (queue1.size() == 1)
+		{
+			T front = queue1.front();
+			//queue1.pop();
+			return front;
+		}
+		while (queue2.size() > 1)//queue1没有元素，queue2有元素，queue2的队尾为栈顶元素，将其余的倒腾到queue1中去
+		{
+			T front = queue2.front();
+			queue2.pop();
+			queue1.push(front);
+		}
+		if (queue2.size() == 1)
+		{
+			T front = queue2.front();
+			//queue2.pop();
+			return front;
+		}
+		throw std::exception("queue is empty");
+	}
+	void push(T data)   //压栈
+	{
+		queue1.push(data);
+	}
+	T pop() //将栈顶元素弹出
+	{
+		while (queue1.size() > 1)//queue1的队尾元素是栈顶元素，将其余的倒腾到queue2中去
+		{
+			T front = queue1.front();
+			queue1.pop();
+			queue2.push(front);
+		}
+		if (queue1.size() == 1)
+		{
+			T front = queue1.front();
+			queue1.pop();
+			return front;
+		}
+		while (queue2.size() > 1)//queue1没有元素，queue2有元素，queue2的队尾为栈顶元素，将其余的倒腾到queue1中去
+		{
+			T front = queue2.front();
+			queue2.pop();
+			queue1.push(front);
+		}
+		if (queue2.size() == 1)
+		{
+			T front = queue2.front();
+			queue2.pop();
+			return front;
+		}
+		throw std::exception("queue is empty");
+	}
+private:
+	queue<T> queue1;    //用来压栈
+	queue<T> queue2;    //辅助容器
+};
+
+int main(int argc, char *argv[])
+{
+	MyStack<int> stack;
+	stack.push(1);
+	stack.push(2);
+	stack.push(3);
+	int top = stack.top();//3
+	cout << "top = " << top << endl;    //3
+	int n1 = stack.pop();
+	int n2 = stack.pop();
+	top = stack.top();
+	cout << "top = " << top << endl;    //1
+	int n3 = stack.pop();
+	cout << n1 << " " << n2 << " " << n3 << endl;        //入栈 1 2 3 ->出栈 3 2 1
+	stack.clear();
+	stack.push(100);
+	stack.push(200);
+	stack.push(300);
+	n1 = stack.pop();
+	n2 = stack.pop();
+	n3 = stack.pop();
+	cout << n1 << " " << n2 << " " << n3 << endl;       //入栈 100 200 300 ->出栈 300 200 100
+	return 0;
+}
