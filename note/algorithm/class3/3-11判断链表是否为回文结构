@@ -1,0 +1,143 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+struct Node {
+	int value;
+	Node* next;
+};
+
+//need n extra space
+void IsRight1(Node* head) {
+	if (head == NULL || head->next == NULL) {
+		cout << "true" << endl;
+		return;
+	}
+	stack<Node*> stack;
+	Node* cur = head;
+	while (cur != NULL) {
+		stack.push(cur);
+		cur = cur->next;
+	}
+	while (head != NULL) {
+		if (head->value != stack.top()->value) {
+			cout << "false" << endl;
+			return;
+		}
+		stack.pop();
+		head = head->next;
+	}
+	cout << "true" << endl;
+}
+
+//need n/2 extra space
+void IsRight2(Node* head) {
+	if (head == NULL || head->next == NULL) {
+		cout << "true" << endl;
+		return;
+	}
+
+	Node* cur = head;
+	Node* right = head->next;
+	while (cur->next != NULL && cur->next->next != NULL) {
+		right = right->next;
+		cur = cur->next->next;
+	}
+	stack<Node*> stack;
+	while (right != NULL) {
+		stack.push(right);
+		right = right->next;
+	}
+	while (!stack.empty()) {
+		if (head->value != stack.top()->value) {
+			cout << "false" << endl;
+			return;
+		}
+		stack.pop();
+		head = head->next;
+	}
+	cout << "true" << endl;
+}
+
+//need O(1) extra space
+void IsRight(Node* head) {
+	if (head == NULL || head->next == NULL) {
+		cout << "true" << endl;
+		return;
+	}
+
+	Node* n1 = head;
+	Node* n2 = head;
+	while (n2->next != NULL && n2->next->next != NULL) { //找到中间位置，n1
+		n1 = n1->next;
+		n2 = n2->next->next;
+	}
+	n2 = n1->next;
+	n1->next = NULL;
+	Node* n3 = NULL;
+	while (n2 != NULL) {   //反转右半部分链表
+		n3 = n2->next;
+		n2->next = n1;
+		n1 = n2;
+		n2 = n3;
+	}
+	n3 = n1;  //n1为右半部分链表反转后起始位置，用n3保存
+	n2 = head;
+	while (n1 != NULL && n2 != NULL) { //左右两部分比较
+		if (n1->value != n2->value) {
+			cout << "false" << endl;
+			return;
+		}
+		n1 = n1->next;
+		n2 = n2->next;
+	}
+	n1 = n3->next;
+	n3->next = NULL;
+	while (n1 != NULL) {  //还原链表
+		n2 = n1->next;
+		n1->next = n3;
+		n3 = n1;
+		n1 = n2;
+	}
+	cout << "true" << endl;
+}
+
+void Print(Node* head) {
+	if (head == NULL)
+		return;
+
+	Node* p = head;
+	while (p->next != NULL) {
+		cout << p->value << " ";
+		p = p->next;
+	}
+	cout << p->value << endl;
+}
+void test(int n) {
+	Node* cur = (Node*)malloc(sizeof(Node));
+	int tem;
+	cin >> tem;
+	cur->value = tem;
+	Node* head = cur;
+	for (int i = 1; i < n; ++i) {
+		Node* p = (Node*)malloc(sizeof(Node));
+		int tem;
+		cin >> tem;
+		p->value = tem;
+		cur->next = p;
+		cur = p;
+	}
+	cur->next = NULL;
+	Print(head);
+
+	IsRight1(head);
+	IsRight2(head);
+	IsRight(head);
+}
+int main() {
+	int n;
+	cin >> n;
+	test(n);
+
+	return 0; 
+}
