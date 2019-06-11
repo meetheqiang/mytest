@@ -1,0 +1,34 @@
+#include "pch.h"
+#include <iostream>
+#include <list>
+#include <iterator>
+using namespace std;
+
+int main() {
+	int m, n, temp;
+	cin >> m >> n;
+	list<int> a;
+	list<int> b;
+	for (int i = 0; i < m; ++i) {
+		a.push_back(i);
+	}
+	for (int i = 0; i < n; ++i) {
+		b.push_back(i);
+	}
+
+	list<int>::iterator p = a.begin();
+	list<int>::iterator q = b.begin();
+	while (p != a.end() && q != b.end()) {
+		if (*p < *q)
+			p++;
+		else if (*p > *q)
+			q++;
+		else {
+			cout << *p << " " << endl;
+			p++;
+			q++;
+		}
+	}
+
+	return 0; 
+}
