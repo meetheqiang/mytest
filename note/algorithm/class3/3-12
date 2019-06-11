@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+	int value;
+	Node* next;
+};
+
+void ListPartition1(Node* head,int num) {
+
+}
+void ListPartition2(Node* head, int num) {
+
+}
+void Print(Node* head) {
+	if (head == NULL)
+		return;
+
+	Node* p = head;
+	while (p->next != NULL) {
+		cout << p->value << " ";
+		p = p->next;
+	}
+	cout << p->value << endl;
+}
+void test(int n) {
+	Node* cur = (Node*)malloc(sizeof(Node));
+	int tem;
+	cin >> tem;
+	cur->value = tem;
+	Node* head = cur;
+	for (int i = 1; i < n; ++i) {
+		Node* p = (Node*)malloc(sizeof(Node));
+		int tem;
+		cin >> tem;
+		p->value = tem;
+		cur->next = p;
+		cur = p;
+	}
+	cur->next = NULL;
+	Print(head);
+
+	ListPartition1(head,num);
+	ListPartition2(head,num);
+}
+int main() {
+	int n,num;
+	cin >> n>>num;
+	test(n,num);
+
+	return 0; 
+}
