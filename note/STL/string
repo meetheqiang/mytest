@@ -1,1 +1,107 @@
+<string>
+=,==,+
 
+操作符重载
+class MyStudent{
+public:
+    MyStudent& operator = (const MyStudent &other){
+    
+    }
+};
+
+//string类实现
+class String {
+public:
+	String(const char *str = NULL);
+	String(const String &other);
+	~String();
+	String& operator =(const String &other);
+	String& operator +(const String &other);
+	bool operator ==(const String &other);
+	int getLength();
+private:
+	char *data;
+};
+
+String::String(const char *str) {
+	if (str == NULL) {
+		data = new char[1];
+		*data = '\0';
+	}
+	else {
+		int len = strlen(str);
+		data = new char[len + 1];
+		strcpy(data, str);
+	}
+}
+String::~String() {
+	if (data) {
+		delete[] data;
+		data = NULL;
+	}
+}
+String::String(const String &other) {
+	if (!other.data){
+		data = NULL;
+	}
+	data = new char[strlen(other.data) + 1];
+	strcpy(data, other.data);
+}
+String& String::operator =(const String &other) {
+	if (this != &other) {
+		delete[] data;
+		if (!other.data) {
+			data = NULL;
+		}
+		else {
+			data = new char[strlen(other.data) + 1];
+			strcpy(data, other.data);
+		}
+		return *this;
+	}
+}
+String& String::operator +(const String &other) {
+	String newString;
+	if (!this->data)
+		newString = *this;
+	else if (!other.data)
+		newString = other;
+	else {
+		newString.data = new char[strlen(data) + strlen(other.data) + 1];
+		strcpy(newString.data, data);
+		strcat(newString.data, other.data);
+	}
+	return newString;
+}
+bool String::operator ==(const String &other) {
+	if (strlen(data) != strlen(other.data)) {
+		return false;
+	}
+	else {
+		return strcmp(data, other.data) ? false : true;
+	}
+}
+int String::getLength() {
+	return strlen(data);
+}
+
+//string声明
+string str = "hello world";
+string s(string str);
+
+//c++字符串与c字符串转换
+c_str(),data(),copy(p,n)
+
+//string和int转换
+1.int转string
+snprintf()
+2.string转int
+strtol,strtoll,strtoul,strtoull
+
+//string其他成员函数
+int capacity（）const;   //const表示函数只读，不能修改成员变量
+int max_size() const;
+int size() const;
+int length() const;
+bool empty() const;
+void resize(int len,char c);
