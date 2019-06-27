@@ -31,3 +31,9 @@ g++ -c sub.cpp
 ar cr libmymath.a sub.o add.o
 ar tv libmaymath.a
 g++ -o main main.cpp -L. -lmymath
+
+
+make
+make clean
+
+clear
