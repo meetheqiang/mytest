@@ -1,0 +1,51 @@
+1.同步IO和异步IO
+同步IO：必须等待IO操作完成后，控制权才返回给用户进程
+异步IO：无需等待IO操作完成，就将用户权返回给用户进程
+
+2.4种网络IO模型
+阻塞IO模型：系统调用recv->等待数据准备->拷贝数据->拷贝完成->系统调用返回
+改进：使用多线程（多用户）pthread_create()、多进程（单个服务执行体需要较多资源）fork()
+socket()、bind()和listend()是同一个句柄fd，accept（）是返回新的socket句柄，可以有多个
+int accept(int fd, struct sockaddr *addr, socklen_t *addrlen)
+线程池：降低创建和销毁线程的频率
+连接池：尽量重用已有连接，降低创建和关闭连接的频率
+多线程模型可以方便高效解决小规模服务请求
+
+非阻塞IO模型：系统调用recv->返回错误->系统调用recv->返回错误->数据准备完毕->拷贝数据->拷贝完成->系统调用返回
+设置非阻塞：fcntl(fd, F_SETFL, o_NONBLOCK)
+recv()返回值>0，接收完毕；=0，连接正常断开；-1，errno=EAGAIN，操作未完成；-1，errno！=EAGAIN，操作错误
+循环调用recv()将大幅度占用CPU使用率，不推荐
+
+多路IO复用模型（事件驱动IO）:系统调用select->等待数据准备->返回数据可读->系统调用recv->拷贝数据->拷贝完成->系统调用返回
+select/epoll的优势不是对单个连接处理更快，在于能够处理更多的连接
+客户端的connect()操作，将在服务端激发一个可读事件
+select()需要轮询各个句柄，推荐epoll（），但epoll()跨平台能力差
+将事件探测和时间响应夹杂，时间响应执行体过大，会影响其他执行体执行和降低事件检测及时性
+改进：libevent库、libev库
+
+异步IO模型:系统调用recv->系统调用返回->返回通知->完成
+前3种均属于同步IO，异步IO是用户进程将IO操作交给内核完成，完成后通知用户进程。
+
+3.select
+int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout)
+可读、可写、错误事件
+fd_set 文件描述符集合
+获得监听描述符，while循环，先判断已连接的client是否有信息，再判断是否有新连接
+
+4.poll
+#include<poll.h>
+int poll(struct pollfd * fds, unsigned int nfds, int timeout)
+struct pollfd，每一个pollfd结构体指定一个被监视的文件描述符，可以传递多个结构体，指示poll（）见识多个文件描述符
+
+5.epoll
+#include<sys/epoll.h>
+int epoll_creat(int size)
+int epoll_ctl()
+int epoll_wait()
+epoll_event
+
+6.区别
+select、poll、epoll都是多路IO复用的机制
+多路IO复用通过一种机制，可以监视多个描述符，一旦某个描述符就绪，能够通知程序进行相应读写操作。
+都是同步IO，需要在读写事件就绪后自己负责进行读写，是阻塞的。
+epoll优点：支持一个进程打开大数目socket描述符；IO效率不随fd数目增加而下降；共享内存加速内存和用户空间的消息传递。
