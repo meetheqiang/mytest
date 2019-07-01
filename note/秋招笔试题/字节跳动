@@ -1,0 +1,50 @@
+1.抓捕孔连顺
+N个建筑，最大距离D，N个建筑的位置，问有多少种方案
+#include "pch.h"
+#include <iostream>
+using namespace std;
+#define MOD 99997867
+
+class Solution {
+public:
+	int calc(int N,int D,int * pos) {
+		int count = 0;
+		for (int i = 0; i < N; ++i) {
+			int X = pos[i] + D;
+			int low = i + 1;
+			int high = N - 1;
+			int j = -1;
+			while (low <= high) {
+				int mid = low + (high - low) / 2;
+				if (pos[mid] > X)
+					high = mid - 1;
+				else
+					low = mid + 1;
+			}
+			j = high;
+			if ((j - i - 1) > 0) {
+				int a = (j - i) % MOD;
+				int b = (j - i - 1) % MOD;
+				count += (a*b) / 2;
+			}
+		}
+		return count;
+	}
+};
+
+int main() {
+	int N, D;
+	cin >> N >> D;
+	int * pos =new int[N];
+	for (int i = 0; i < N; ++i) {
+		cin >> pos[i];
+	}
+	Solution solution;
+	int count = solution.calc(N, D, pos);
+	cout << count << endl;
+	delete pos;
+
+	return 0;
+}
+
+2.毕业旅行
