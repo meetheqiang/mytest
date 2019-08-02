@@ -1,0 +1,212 @@
+1.设计一个有getMin功能的栈
+题目：实现一个特殊的栈，在实现栈的基本功能的基础上，再实现返回栈中最小元素的操作
+要求：1.pop、push、getMin操作时间复杂度都是O（1）；
+     2.设计的栈类型可以使用现有栈结构；
+
+实例：
+#include "pch.h"
+#include <iostream>
+#include <stack>
+#include <assert.h>
+using namespace std;
+
+class MyStack {
+private:
+	stack<int> stackData;
+	stack<int> stackMin;
+public:
+	//入栈
+	void push(int data) {
+		stackData.push(data);
+
+		if (stackMin.empty()) 
+		{
+			stackMin.push(data);
+		}
+		else
+		{
+			if (stackData.top() <= stackMin.top()) 
+			{
+				stackMin.push(data);
+			}
+		}
+	}
+	//出栈
+	void pop() {
+		assert(!stackData.empty() && !stackMin.empty());
+		if (stackData.top() == stackMin.top())
+		{
+			stackMin.pop();
+		}
+		stackData.pop();
+	}
+	//获得最小值
+	int getMin() {
+		assert(!stackMin.empty());
+		return stackMin.top();
+	}
+};//注意class结尾需要加分号
+
+int main() {
+	MyStack s;
+	s.push(2);
+	cout << s.getMin() << endl;
+    s.push(1);
+	cout << s.getMin() << endl;
+    s.push(3);
+	cout << s.getMin() << endl;
+	s.pop();
+	cout << s.getMin() << endl;
+    s.pop();
+	cout << s.getMin() << endl;
+    s.pop();
+	cout << s.getMin() << endl;
+
+	return 0;
+}
+
+2.由两个栈组成的队列
+题目：编写一个类，用两个栈实现队列，支持队列的基本操作（add,poll,peek）
+
+实例：
+#include "pch.h"
+#include <iostream>
+#include <stack>
+using namespace std;
+
+class MyQueue {
+private:
+	stack<int> stackPush;
+	stack<int> stackPop;
+public:
+	void push(int data)
+	{
+		stackPush.push(data);
+	}
+
+	int pop()
+	{
+		if(stackPop.empty() && stackPush.empty())
+		{
+			cout << "queue is empty" << endl;
+			exit(0);
+		}
+		else
+		{
+			if (stackPop.empty())
+			{
+				while (!stackPush.empty())
+				{
+					stackPop.push(stackPush.top());
+					stackPush.pop();
+				}
+			}
+			int value = stackPop.top();
+			stackPop.pop();
+			return value;
+		}
+	}
+
+	int front()
+	{
+		if (stackPop.empty() && stackPush.empty())
+		{
+			cout << "queue is empty" << endl;
+			exit(0);
+		}
+		else
+		{
+			if (stackPop.empty())
+			{
+				while (!stackPush.empty())
+				{
+					stackPop.push(stackPush.top());
+					stackPush.pop();
+				}
+			}
+			return stackPop.top();
+		}
+	}
+};
+
+int main() {
+	MyQueue q;
+	q.push(1);
+	cout << q.front() << endl;
+	q.push(2);
+	cout << q.front() << endl;
+	q.pop();
+	cout << q.front() << endl;
+	q.pop();
+	cout << q.front() << endl;
+
+	return 0;
+}
+
+3.仅用递归函数和栈操作逆序一个栈（跳过）
+题目：实现栈中元素逆序，只能使用递归函数，不能使用其他数据结构
+
+实例：
+
+4.猫狗队列（跳过）
+
+5.用一个栈实现另一个栈的排序
+题目：
+
+实例：
+#include <iostream>
+#include <stack>
+using namespace std;
+
+class Solution
+{
+public:
+	static void sortStackByStack(stack<int>& s)
+	{
+		stack<int>* help = new stack<int>;
+		while (!s.empty())
+		{
+			int value = s.top();
+			s.pop();
+
+			while (!help->empty() && value > help->top())
+			{
+				s.push(help->top());
+				help->pop();
+			}
+			help->push(value);
+		}
+
+		while (!help->empty())
+		{
+			s.push(help->top());
+			help->pop();
+		}
+	}
+};
+
+void printStack(stack<int> &s) {
+	while (!s.empty())
+	{
+		cout << s.top()<<endl;
+		s.pop();
+	}
+}
+
+int main() {
+	stack<int>* s=new stack<int>;
+	s->push(2);//类的指针用->
+	s->push(1);
+	s->push(3);
+
+	Solution solution;
+	solution.sortStackByStack(*s);//类的实例对象用.
+
+	Solution::sortStackByStack(*s);//类用：：
+
+	printStack(*s);
+
+	return 0;
+}
+
+
