@@ -207,4 +207,55 @@ int main() {
 	return 0;
 }
 
+6.用栈解决汉诺塔问题
 
+7.生成窗口最大值数组
+
+实例：
+#include <iostream>
+#include <deque>
+#include <vector>
+using namespace std;
+
+class Solution
+{
+public:
+	static vector<int> getMaxWindow(vector<int> vec, int w)//为了减少参数，选择的是VECTOR，正常数组需要写成int arr[],int arr[4][]
+	{
+		int len = vec.size();
+		deque<int> q;
+		vector<int> res;
+		if (len <= 0 || w < 1 || len < w) {
+			return res;
+		}
+
+		for (int i = 0; i < len; ++i) {
+			while (!q.empty() && vec[q.back()] <= vec[i]) {
+				q.pop_back();
+			}
+			q.push_back(i);
+			if (q.front() == i - w)
+				q.pop_front();
+			if (i >= w - 1)
+				res.push_back(vec[q.front()]);
+		}
+		return res;
+	}
+};
+
+void printf(vector<int> res) {
+	int len = res.size();
+	for (int i = 0; i < len; ++i) {
+		cout << res[i] << endl;
+	}
+}
+
+int main() {
+	vector<int> vec = { 4,3,5,4,3,3,6,7 };
+	vector<int> res = Solution::getMaxWindow(vec, 3);
+	printf(res);
+
+	return 0;
+}
+
+8.
